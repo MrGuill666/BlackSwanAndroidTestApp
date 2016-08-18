@@ -1,5 +1,6 @@
 package hu.gergelyszaz.blackswanandroidtestapp;
 
+import android.content.ClipData;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -25,76 +26,72 @@ import java.util.List;
  */
 
 
-
 public class TheMovieDB extends AsyncTask<String, Void, String> {
-        private static String API_KEY = "?api_key=0a08e38b874d0aa2d426ffc04357069d";
-        private static String ADDRESS = "http://api.themoviedb.org/3";
-        private static String SEARCH = "/search";
-        private static String PERSON = "/person";
-        private static String MOVIE = "/movie";
-        private static String TV = "/tv";
-        private static String POPULAR = "/popular";
+    public final static String MOVIES = "movies";
+    public final static String PEOPLE = "people";
+    public final static String TV = "tv";
 
-        private List<Movie> movies=new ArrayList<>();
+    ItemList ui = null;
+    private String type = null;
 
-        public List<String> getTop20Movies() {
-            execute(ADDRESS+MOVIE+POPULAR+API_KEY);
-            List<String> movies = new ArrayList<>();
-            return movies;
-        }
-
-        @Override
-        protected String doInBackground(String... params) {
-            String response=GetHttpResponse(params[0]);
-            return response;
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            List<Movie> movies=new ArrayList<>();
-            try {
-                JSONObject jsonObject=new JSONObject(result);
-                JSONArray moviesArray=jsonObject.getJSONArray("results");
-                for (int i = 0; i < moviesArray.length(); i++) {
-                    Movie movie=Movie.FromJSONObject(moviesArray.getJSONObject(i));
-                    movies.add(movie);
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-        @Override
-        protected void onPreExecute() {}
-
-        @Override
-        protected void onProgressUpdate(Void... values) {}
-
-        private String GetHttpResponse(String address){
-
-            URL url = null;
-            String response="";
-            HttpURLConnection urlConnection=null;
-            try {
-                url = new URL(address);
-                urlConnection = (HttpURLConnection) url.openConnection();
-                urlConnection.setRequestMethod("GET");
-                InputStream in = new BufferedInputStream(urlConnection.getInputStream());
-                response=StreamToStringConverter.convertStreamToString(in);
-                System.out.println(response);
-                in.close();
-            } catch (ProtocolException e) {
-                e.printStackTrace();
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            } finally {
-                urlConnection.disconnect();
-            }
-            return response;
-        }
-
-
+    public TheMovieDB(ItemList ui, String type) {
+        this.ui = ui;
+        this.type=type;
     }
+
+    public void getResponse(String url) {
+        execute(url);
+    }
+
+    @Override
+    protected String doInBackground(String... params) {
+        String address = "";
+        for (String param : params) {
+            address += param;
+        }
+        String response = StreamToStringConverter.getHttpResponseMessage(address);
+        return response;
+    }
+
+    @Override
+    protected void onPostExecute(String result) {
+        List<Movie> movies = new ArrayList<>();
+        List<Movie> tv = new ArrayList<>();
+        List<Movie> people = new ArrayList<>();
+        try {
+            JSONObject jsonObject = new JSONObject(result);
+            JSONArray jsonArray = jsonObject.getJSONArray("results");
+            for (int i = 0; i < jsonArray.length(); ++i) {
+                JSONObject movie = jsonArray.getJSONObject(i);
+                switch (type){
+                    case MOVIES: movies.add(Movie.FromJSONObject(movie)); break;
+                    case TV: break;
+                    case PEOPLE: break;
+                    default: throw new IllegalArgumentException();
+                }
+
+            }
+            switch (type){
+                case MOVIES: ui.UpdateMovies(movies); break;
+                case TV: break;
+                case PEOPLE: break;
+                default: throw new IllegalArgumentException();
+            }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    protected void onPreExecute() {
+    }
+
+    @Override
+    protected void onProgressUpdate(Void... values) {
+    }
+
+
+}
 
 

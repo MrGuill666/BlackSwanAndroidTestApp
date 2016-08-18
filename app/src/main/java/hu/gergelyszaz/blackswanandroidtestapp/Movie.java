@@ -18,8 +18,16 @@ public class Movie {
         return movie;
     }
 
-    private String title;
-    private String description;
+    public String getTitle() {
+        return title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    private String title="title";
+    private String description="description";
 
 
 
