@@ -1,9 +1,11 @@
 package hu.gergelyszaz.blackswanandroidtestapp;
 
+import android.content.res.Resources;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import hu.gergelyszaz.blackswanandroidtestapp.ItemFragment.OnListFragmentInteractionListener;
@@ -31,9 +33,13 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        holder.mItem = mValues.get(position);
-        holder.mIdView.setText(mValues.get(position).getTitle());
-        holder.mContentView.setText(mValues.get(position).getDescription());
+        Movie movie=mValues.get(position);
+        holder.mItem=movie;
+        holder.mIdView.setText(movie.getTitle());
+        holder.mContentView.setText(movie.getDescription());
+        String postersUrl="http://image.tmdb.org/t/p/w185";
+        String api_key="0a08e38b874d0aa2d426ffc04357069d";
+        new DownloadImageTask(holder.mImageView).execute(postersUrl+movie.getImageURL()+"?api_key="+api_key);
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -56,6 +62,7 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
         public final View mView;
         public final TextView mIdView;
         public final TextView mContentView;
+        public final ImageView mImageView;
         public Movie mItem;
 
         public ViewHolder(View view) {
@@ -63,6 +70,7 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
             mView = view;
             mIdView = (TextView) view.findViewById(R.id.id);
             mContentView = (TextView) view.findViewById(R.id.content);
+            mImageView=(ImageView) view.findViewById(R.id.image);
         }
 
         @Override
