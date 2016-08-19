@@ -10,13 +10,13 @@ import android.support.v7.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
+import hu.gergelyszaz.blackswanandroidtestapp.model.ModelUpdateListener;
 import hu.gergelyszaz.blackswanandroidtestapp.model.Movie;
 import hu.gergelyszaz.blackswanandroidtestapp.model.Person;
 import hu.gergelyszaz.blackswanandroidtestapp.model.TVShow;
-import hu.gergelyszaz.blackswanandroidtestapp.model.TheMovieDBListener;
 
 
-public class ModelFragment extends Fragment implements TheMovieDBListener {
+public class ModelFragment extends Fragment implements ModelUpdateListener {
     private List<Movie> movies = new ArrayList<>();
     private List<TVShow> tvshows = new ArrayList<>();
     private List<Person> people = new ArrayList<>();

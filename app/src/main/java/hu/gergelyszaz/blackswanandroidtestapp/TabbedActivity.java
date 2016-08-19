@@ -14,11 +14,14 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+
 import hu.gergelyszaz.blackswanandroidtestapp.model.Item;
 import hu.gergelyszaz.blackswanandroidtestapp.network.TheMovieDB;
 
 
-public class TabbedActivity extends AppCompatActivity implements ItemFragment.OnListFragmentInteractionListener, SearchView.OnQueryTextListener {
+public class TabbedActivity extends AppCompatActivity implements ListViewFragment.OnListFragmentInteractionListener, SearchView.OnQueryTextListener {
 
     private SectionsPagerAdapter sectionsPagerAdapter;
 
@@ -77,6 +80,7 @@ public class TabbedActivity extends AppCompatActivity implements ItemFragment.On
 
     @Override
     public boolean onQueryTextSubmit(String query) {
+        try {
         int position = viewPager.getCurrentItem();
         ModelFragment modelFragment = ModelFragment.getModelFragment(getSupportFragmentManager());
         String address = "";
@@ -93,9 +97,13 @@ public class TabbedActivity extends AppCompatActivity implements ItemFragment.On
             default:
                 throw new IllegalArgumentException();
         }
-        address += "?api_key=" + getString(R.string.api_key) + "&query=" + query;
-        new TheMovieDB(modelFragment, position).getResponse(address);
-        return false;
+
+            address += "?api_key=" + getString(R.string.api_key) + "&query=" + URLEncoder.encode(query, "UTF-8");
+            new TheMovieDB(modelFragment, position).getResponse(address);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        return true;
     }
 
     @Override
@@ -116,7 +124,7 @@ public class TabbedActivity extends AppCompatActivity implements ItemFragment.On
 
         @Override
         public android.support.v4.app.Fragment getItem(int position) {
-            return ItemFragment.newInstance(position);
+            return ListViewFragment.newInstance(position);
         }
 
         @Override

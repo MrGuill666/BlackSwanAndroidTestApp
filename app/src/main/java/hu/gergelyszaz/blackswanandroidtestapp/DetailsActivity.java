@@ -29,18 +29,19 @@ public class DetailsActivity extends AppCompatActivity {
         Intent intent = getIntent();
         int id = intent.getIntExtra("id", 0);
         int type = intent.getIntExtra("type", 0);
-        String url;
+        String address = "";
         switch (type) {
             case TheMovieDB.MOVIES:
-                url = getString(R.string.url_movie_details) + "/" + id + "?api_key=" + getString(R.string.api_key);
+                address = getString(R.string.url_movie_details);
                 break;
             case TheMovieDB.TV:
-                url = getString(R.string.url_tv_details) + "/" + id + "?api_key=" + getString(R.string.api_key);
+                address = getString(R.string.url_tv_details);
                 break;
             default:
                 throw new IllegalArgumentException();
         }
-        new DetailsConnection(type).execute(url);
+        address += "/" + id + "?api_key=" + getString(R.string.api_key);
+        new DetailsConnection(type).execute(address);
 
 
     }

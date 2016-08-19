@@ -9,10 +9,10 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import hu.gergelyszaz.blackswanandroidtestapp.model.ModelUpdateListener;
 import hu.gergelyszaz.blackswanandroidtestapp.model.Movie;
 import hu.gergelyszaz.blackswanandroidtestapp.model.Person;
 import hu.gergelyszaz.blackswanandroidtestapp.model.TVShow;
-import hu.gergelyszaz.blackswanandroidtestapp.model.TheMovieDBListener;
 
 
 /**
@@ -25,10 +25,10 @@ public class TheMovieDB extends AsyncTask<String, Void, String> {
     public final static int PEOPLE = 1;
     public final static int TV = 2;
 
-    TheMovieDBListener listener = null;
+    ModelUpdateListener listener = null;
     private int type;
 
-    public TheMovieDB(TheMovieDBListener listener, int type) {
+    public TheMovieDB(ModelUpdateListener listener, int type) {
         this.listener = listener;
         this.type=type;
     }

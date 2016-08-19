@@ -4,7 +4,7 @@ import android.content.res.Resources;
 
 import java.util.List;
 
-import hu.gergelyszaz.blackswanandroidtestapp.ItemFragment.OnListFragmentInteractionListener;
+import hu.gergelyszaz.blackswanandroidtestapp.ListViewFragment.OnListFragmentInteractionListener;
 import hu.gergelyszaz.blackswanandroidtestapp.R;
 import hu.gergelyszaz.blackswanandroidtestapp.model.Movie;
 import hu.gergelyszaz.blackswanandroidtestapp.network.DownloadImageTask;

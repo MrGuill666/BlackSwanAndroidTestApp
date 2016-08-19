@@ -22,14 +22,14 @@ import hu.gergelyszaz.blackswanandroidtestapp.model.TVShow;
 import hu.gergelyszaz.blackswanandroidtestapp.network.TheMovieDB;
 
 
-public class ItemFragment extends Fragment {
-    private final static String CONTENT="list_content";
+public class ListViewFragment extends Fragment {
     private OnListFragmentInteractionListener onListFragmentInteractionListener;
 
-    public ItemFragment() {    }
+    public ListViewFragment() {
+    }
 
-    public static ItemFragment newInstance(int type) {
-        ItemFragment fragment = new ItemFragment();
+    public static ListViewFragment newInstance(int type) {
+        ListViewFragment fragment = new ListViewFragment();
         Bundle args = new Bundle();
         args.putInt("type", type);
         fragment.setArguments(args);

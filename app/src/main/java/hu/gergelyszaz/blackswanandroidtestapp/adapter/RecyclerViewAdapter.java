@@ -5,7 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import hu.gergelyszaz.blackswanandroidtestapp.ItemFragment.OnListFragmentInteractionListener;
+import hu.gergelyszaz.blackswanandroidtestapp.ListViewFragment.OnListFragmentInteractionListener;
 import hu.gergelyszaz.blackswanandroidtestapp.R;
 
 
