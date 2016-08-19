@@ -9,10 +9,10 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-import hu.gergelyszaz.blackswanandroidtestapp.model.ItemList;
 import hu.gergelyszaz.blackswanandroidtestapp.model.Movie;
 import hu.gergelyszaz.blackswanandroidtestapp.model.Person;
 import hu.gergelyszaz.blackswanandroidtestapp.model.TVShow;
+import hu.gergelyszaz.blackswanandroidtestapp.model.TheMovieDBListener;
 
 
 /**
@@ -25,11 +25,11 @@ public class TheMovieDB extends AsyncTask<String, Void, String> {
     public final static int PEOPLE = 1;
     public final static int TV = 2;
 
-    ItemList ui = null;
+    TheMovieDBListener listener = null;
     private int type;
 
-    public TheMovieDB(ItemList ui, int type) {
-        this.ui = ui;
+    public TheMovieDB(TheMovieDBListener listener, int type) {
+        this.listener = listener;
         this.type=type;
     }
 
@@ -72,12 +72,14 @@ public class TheMovieDB extends AsyncTask<String, Void, String> {
 
             }
             switch (type){
-                case MOVIES: ui.UpdateMovies(movies); break;
+                case MOVIES:
+                    listener.UpdateMovies(movies);
+                    break;
                 case TV:
-                    ui.UpdateTV(tvshows);
+                    listener.UpdateTV(tvshows);
                     break;
                 case PEOPLE:
-                    ui.UpdatePeople(people);
+                    listener.UpdatePeople(people);
                     break;
                 default: throw new IllegalArgumentException();
             }
@@ -87,13 +89,7 @@ public class TheMovieDB extends AsyncTask<String, Void, String> {
         }
     }
 
-    @Override
-    protected void onPreExecute() {
-    }
 
-    @Override
-    protected void onProgressUpdate(Void... values) {
-    }
 
 
 }

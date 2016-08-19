@@ -7,5 +7,7 @@
     <string name="url_people_search">http://api.themoviedb.org/3/search/person</string>
     <string name="url_tv_search">http://api.themoviedb.org/3/search/tv</string>
     <string name="url_posters">http://image.tmdb.org/t/p/w185</string>
+    <string name="url_movie_details">http://api.themoviedb.org/3/movie</string>
+    <string name="url_tv_details">http://api.themoviedb.org/3/tv</string>
     <string name="api_key">0a08e38b874d0aa2d426ffc04357069d</string>
 </resources>

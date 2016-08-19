@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * Created by mad on 2016. 08. 18..
  */
-public interface ItemList {
+public interface TheMovieDBListener {
     void UpdateMovies(List<Movie> movies);
 
     void UpdateTV(List<TVShow> movies);

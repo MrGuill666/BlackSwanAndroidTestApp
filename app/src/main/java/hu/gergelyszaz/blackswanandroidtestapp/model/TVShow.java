@@ -8,12 +8,13 @@ import org.json.JSONObject;
 /**
  * Created by mad on 2016. 08. 19..
  */
-public class TVShow {
+public class TVShow extends Item {
     private String title = "title";
     private String description = "description";
     private String imageURL;
     private String rating;
     private String date;
+    private String category;
 
     public static TVShow FromJSONObject(JSONObject jsonobject) {
         TVShow tvShow = new TVShow();
@@ -23,6 +24,7 @@ public class TVShow {
             tvShow.imageURL = jsonobject.getString("poster_path");
             tvShow.rating = jsonobject.getString("vote_average");
             tvShow.date = jsonobject.getString("first_air_date");
+            tvShow.id = jsonobject.getInt("id");
         } catch (JSONException e) {
             e.printStackTrace();
         }

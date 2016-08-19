@@ -1,6 +1,7 @@
 package hu.gergelyszaz.blackswanandroidtestapp;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentManager;
@@ -13,6 +14,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import hu.gergelyszaz.blackswanandroidtestapp.model.Item;
 import hu.gergelyszaz.blackswanandroidtestapp.network.TheMovieDB;
 
 
@@ -63,8 +65,14 @@ public class TabbedActivity extends AppCompatActivity implements ItemFragment.On
 
 
     @Override
-    public void onListFragmentInteraction(Object item) {
-
+    public void onListFragmentInteraction(Item item) {
+        int tab = mViewPager.getCurrentItem();
+        if (tab != TheMovieDB.PEOPLE) {
+            Intent intent = new Intent(this, DetailsActivity.class);
+            intent.putExtra("type", tab);
+            intent.putExtra("id", item.getId());
+            startActivity(intent);
+        }
     }
 
     @Override

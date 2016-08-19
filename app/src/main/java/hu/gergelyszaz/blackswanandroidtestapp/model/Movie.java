@@ -6,7 +6,7 @@ import org.json.JSONObject;
 /**
  * Created by mad on 2016. 08. 18..
  */
-public class Movie {
+public class Movie extends Item {
 
 
     private String title = "title";
@@ -23,6 +23,7 @@ public class Movie {
             movie.imageURL=jsonobject.getString("poster_path");
             movie.rating = jsonobject.getString("vote_average");
             movie.date = jsonobject.getString("release_date");
+            movie.id = jsonobject.getInt("id");
         } catch (JSONException e) {
             e.printStackTrace();
         }

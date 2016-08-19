@@ -15,6 +15,7 @@ import java.util.List;
 import hu.gergelyszaz.blackswanandroidtestapp.adapter.MovieRecyclerViewAdapter;
 import hu.gergelyszaz.blackswanandroidtestapp.adapter.PersonRecyclerViewAdapter;
 import hu.gergelyszaz.blackswanandroidtestapp.adapter.TVRecyclerViewAdapter;
+import hu.gergelyszaz.blackswanandroidtestapp.model.Item;
 import hu.gergelyszaz.blackswanandroidtestapp.model.Movie;
 import hu.gergelyszaz.blackswanandroidtestapp.model.Person;
 import hu.gergelyszaz.blackswanandroidtestapp.model.TVShow;
@@ -105,6 +106,6 @@ public class ItemFragment extends Fragment {
     }
 
     public interface OnListFragmentInteractionListener {
-        void onListFragmentInteraction(Object item);
+        void onListFragmentInteraction(Item item);
     }
 }

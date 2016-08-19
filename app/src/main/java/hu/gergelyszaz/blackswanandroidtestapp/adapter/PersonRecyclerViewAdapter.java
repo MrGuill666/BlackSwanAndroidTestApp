@@ -1,6 +1,7 @@
 package hu.gergelyszaz.blackswanandroidtestapp.adapter;
 
 import android.content.res.Resources;
+import android.view.View;
 
 import java.util.List;
 
@@ -25,8 +26,9 @@ public class PersonRecyclerViewAdapter extends RecyclerViewAdapter {
         Person person = people.get(position);
         holder.title.setText(person.getTitle());
         holder.description.setText(person.getDescription());
-        holder.rating.setText("");
-        holder.date.setText("");
+        holder.rating.setVisibility(View.GONE);
+        holder.date.setVisibility(View.GONE);
+        holder.more.setVisibility(View.GONE);
 
         if (person.getImageURL() != "null") {
             Resources resources = holder.view.getResources();
