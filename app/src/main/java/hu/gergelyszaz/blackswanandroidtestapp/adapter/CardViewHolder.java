@@ -13,13 +13,13 @@ import hu.gergelyszaz.blackswanandroidtestapp.model.Item;
  */
 public class CardViewHolder extends RecyclerView.ViewHolder {
 
-    public final View view;
-    public final TextView title;
     public final TextView description;
     public final TextView rating;
-    public final TextView date;
     public final ImageView image;
+    public final TextView title;
+    public final TextView date;
     public final TextView more;
+    public final View view;
     public Item item;
 
 

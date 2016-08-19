@@ -1,7 +1,5 @@
 package hu.gergelyszaz.blackswanandroidtestapp.model;
 
-import android.widget.ImageView;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -9,6 +7,14 @@ import org.json.JSONObject;
  * Created by mad on 2016. 08. 19..
  */
 public class TVShow extends Item {
+
+    public static final String IMAGE = "poster_path";
+    public static final String VOTE = "vote_average";
+    public static final String TITLE = "name";
+    public static final String DESCRIPTION = "overview";
+    public static final String DATE = "first_air_date";
+    public static final String ID = "id";
+
     private String title = "title";
     private String description = "description";
     private String imageURL;
@@ -19,12 +25,12 @@ public class TVShow extends Item {
     public static TVShow FromJSONObject(JSONObject jsonobject) {
         TVShow tvShow = new TVShow();
         try {
-            tvShow.title = jsonobject.getString("name");
-            tvShow.description = jsonobject.getString("overview");
-            tvShow.imageURL = jsonobject.getString("poster_path");
-            tvShow.rating = jsonobject.getString("vote_average");
-            tvShow.date = jsonobject.getString("first_air_date");
-            tvShow.id = jsonobject.getInt("id");
+            tvShow.description = jsonobject.getString(DESCRIPTION);
+            tvShow.imageURL = jsonobject.getString(IMAGE);
+            tvShow.rating = jsonobject.getString(VOTE);
+            tvShow.title = jsonobject.getString(TITLE);
+            tvShow.date = jsonobject.getString(DATE);
+            tvShow.id = jsonobject.getInt(ID);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -41,11 +47,6 @@ public class TVShow extends Item {
 
     public String getImageURL() {
         return imageURL;
-    }
-
-    public void setImageView(ImageView imageView, String imageURL) {
-
-
     }
 
     public String getDate() {

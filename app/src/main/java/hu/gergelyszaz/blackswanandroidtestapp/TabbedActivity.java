@@ -20,12 +20,10 @@ import hu.gergelyszaz.blackswanandroidtestapp.network.TheMovieDB;
 
 public class TabbedActivity extends AppCompatActivity implements ItemFragment.OnListFragmentInteractionListener, SearchView.OnQueryTextListener {
 
-    private SectionsPagerAdapter mSectionsPagerAdapter;
+    private SectionsPagerAdapter sectionsPagerAdapter;
 
 
-
-
-    private ViewPager mViewPager;
+    private ViewPager viewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,26 +33,28 @@ public class TabbedActivity extends AppCompatActivity implements ItemFragment.On
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+        sectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
         // Set up the ViewPager with the sections adapter.
-        mViewPager = (ViewPager) findViewById(R.id.container);
-        mViewPager.setAdapter(mSectionsPagerAdapter);
+        viewPager = (ViewPager) findViewById(R.id.container);
+        viewPager.setAdapter(sectionsPagerAdapter);
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
-        tabLayout.setupWithViewPager(mViewPager);
+        tabLayout.setupWithViewPager(viewPager);
 
         ModelFragment modelFragment = ModelFragment.getModelFragment(getSupportFragmentManager());
-        new TheMovieDB(modelFragment, TheMovieDB.MOVIES).getResponse(getString(R.string.url_movies_popular) + "?api_key=" + getString(R.string.api_key));
-        new TheMovieDB(modelFragment, TheMovieDB.PEOPLE).getResponse(getString(R.string.url_people_popular) + "?api_key=" + getString(R.string.api_key));
-        new TheMovieDB(modelFragment, TheMovieDB.TV).getResponse(getString(R.string.url_tv_popular) + "?api_key=" + getString(R.string.api_key));
+        String popularmoviesAddress = getString(R.string.url_movies_popular) + "?api_key=" + getString(R.string.api_key);
+        String popularpeopleAddress = getString(R.string.url_people_popular) + "?api_key=" + getString(R.string.api_key);
+        String populartvAddress = getString(R.string.url_tv_popular) + "?api_key=" + getString(R.string.api_key);
+        new TheMovieDB(modelFragment, TheMovieDB.MOVIES).getResponse(popularmoviesAddress);
+        new TheMovieDB(modelFragment, TheMovieDB.PEOPLE).getResponse(popularpeopleAddress);
+        new TheMovieDB(modelFragment, TheMovieDB.TV).getResponse(populartvAddress);
 
     }
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_search, menu);
         MenuItem searchItem = menu.findItem(R.id.search);
         SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
@@ -66,7 +66,7 @@ public class TabbedActivity extends AppCompatActivity implements ItemFragment.On
 
     @Override
     public void onListFragmentInteraction(Item item) {
-        int tab = mViewPager.getCurrentItem();
+        int tab = viewPager.getCurrentItem();
         if (tab != TheMovieDB.PEOPLE) {
             Intent intent = new Intent(this, DetailsActivity.class);
             intent.putExtra("type", tab);
@@ -77,21 +77,24 @@ public class TabbedActivity extends AppCompatActivity implements ItemFragment.On
 
     @Override
     public boolean onQueryTextSubmit(String query) {
-        int position = mViewPager.getCurrentItem();
+        int position = viewPager.getCurrentItem();
         ModelFragment modelFragment = ModelFragment.getModelFragment(getSupportFragmentManager());
+        String address = "";
         switch (position) {
             case TheMovieDB.MOVIES:
-                new TheMovieDB(modelFragment, TheMovieDB.MOVIES).getResponse(getString(R.string.url_movies_search) + "?api_key=" + getString(R.string.api_key) + "&query=" + query);
+                address = getString(R.string.url_movies_search);
                 break;
             case TheMovieDB.PEOPLE:
-                new TheMovieDB(modelFragment, position).getResponse(getString(R.string.url_people_search) + "?api_key=" + getString(R.string.api_key) + "&query=" + query);
+                address = getString(R.string.url_people_search);
                 break;
             case TheMovieDB.TV:
-                new TheMovieDB(modelFragment, position).getResponse(getString(R.string.url_tv_search) + "?api_key=" + getString(R.string.api_key) + "&query=" + query);
+                address = getString(R.string.url_tv_search);
                 break;
             default:
                 throw new IllegalArgumentException();
         }
+        address += "?api_key=" + getString(R.string.api_key) + "&query=" + query;
+        new TheMovieDB(modelFragment, position).getResponse(address);
         return false;
     }
 
@@ -114,7 +117,6 @@ public class TabbedActivity extends AppCompatActivity implements ItemFragment.On
         @Override
         public android.support.v4.app.Fragment getItem(int position) {
             return ItemFragment.newInstance(position);
-
         }
 
         @Override

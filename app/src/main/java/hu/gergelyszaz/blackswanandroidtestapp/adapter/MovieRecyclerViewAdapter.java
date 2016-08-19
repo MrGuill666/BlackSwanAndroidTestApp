@@ -23,9 +23,9 @@ public class MovieRecyclerViewAdapter extends RecyclerViewAdapter {
         super.onBindViewHolder(holder, position);
 
         Movie movie = movies.get(position);
+        holder.description.setText(movie.getDescription());
         holder.item = movie;
         holder.title.setText(movie.getTitle());
-        holder.description.setText(movie.getDescription());
         holder.rating.setText(movie.getRating());
         holder.date.setText(movie.getDate());
 

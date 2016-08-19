@@ -7,9 +7,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.widget.TextView;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import hu.gergelyszaz.blackswanandroidtestapp.model.Movie;
+import hu.gergelyszaz.blackswanandroidtestapp.model.TVShow;
 import hu.gergelyszaz.blackswanandroidtestapp.network.HTTPConnectionHelper;
 import hu.gergelyszaz.blackswanandroidtestapp.network.TheMovieDB;
 
@@ -37,19 +40,25 @@ public class DetailsActivity extends AppCompatActivity {
             default:
                 throw new IllegalArgumentException();
         }
-        new DetailsConnection().execute(url);
+        new DetailsConnection(type).execute(url);
 
 
     }
 
 
     public class DetailsConnection extends AsyncTask<String, Void, JSONObject> {
+        int type;
+
+        public DetailsConnection(int type) {
+            this.type = type;
+        }
+
         @Override
         protected JSONObject doInBackground(String... strings) {
-            String address = strings[0];
-            String response = HTTPConnectionHelper.getHttpResponseMessage(address);
-            JSONObject jsonObject = null;
+            JSONObject jsonObject = new JSONObject();
             try {
+                String address = strings[0];
+                String response = HTTPConnectionHelper.getHttpResponseMessage(address);
                 jsonObject = new JSONObject(response);
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -58,13 +67,41 @@ public class DetailsActivity extends AppCompatActivity {
         }
 
         @Override
-        protected void onPostExecute(JSONObject s) {
-            super.onPostExecute(s);
-            TextView textView = (TextView) findViewById(R.id.text);
-            TextView titleView = (TextView) findViewById(R.id.title);
+        protected void onPostExecute(JSONObject details) {
+            super.onPostExecute(details);
             try {
-                textView.setText(s.getString("overview"));
-                titleView.setText(s.getString("title"));
+
+                TextView textView = (TextView) findViewById(R.id.text);
+                TextView titleView = (TextView) findViewById(R.id.title);
+                TextView subtitleView = (TextView) findViewById(R.id.subtitle);
+
+                String description, title;
+                switch (type) {
+                    case TheMovieDB.MOVIES:
+                        description = Movie.DESCRIPTION;
+                        title = Movie.TITLE;
+                        break;
+                    case TheMovieDB.TV:
+                        description = TVShow.DESCRIPTION;
+                        title = TVShow.TITLE;
+                        break;
+                    default:
+                        throw new IllegalArgumentException();
+                }
+
+                JSONArray genreArray = details.getJSONArray("genres");
+                StringBuilder stringBuilder = new StringBuilder("");
+                for (int i = 0; i < genreArray.length(); i++) {
+                    JSONObject genreObject = genreArray.getJSONObject(i);
+                    String genreString = genreObject.optString("name");
+                    stringBuilder.append(genreString);
+                    if (i < genreArray.length() - 1) {
+                        stringBuilder.append(", ");
+                    }
+                }
+                subtitleView.setText(stringBuilder.toString());
+                textView.setText(details.getString(description));
+                titleView.setText(details.getString(title));
 
             } catch (JSONException e) {
                 e.printStackTrace();

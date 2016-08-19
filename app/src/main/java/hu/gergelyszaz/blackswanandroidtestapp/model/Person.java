@@ -7,6 +7,10 @@ import org.json.JSONObject;
  * Created by mad on 2016. 08. 19..
  */
 public class Person extends Item {
+    public static final String IMAGE = "profile_path";
+    public static final String TITLE = "name";
+    public static final String DESCRIPTION = "biography";
+    public static final String ID = "id";
 
     private String title = "title";
     private String description = "description";
@@ -15,10 +19,10 @@ public class Person extends Item {
     public static Person FromJSONObject(JSONObject jsonobject) {
         Person person = new Person();
         try {
-            person.title = jsonobject.getString("name");
-            person.description = jsonobject.optString("biography");
-            person.imageURL = jsonobject.getString("profile_path");
-            person.id = jsonobject.getInt("id");
+            person.title = jsonobject.getString(TITLE);
+            person.description = jsonobject.optString(DESCRIPTION);
+            person.imageURL = jsonobject.getString(IMAGE);
+            person.id = jsonobject.getInt(ID);
         } catch (JSONException e) {
             e.printStackTrace();
         }

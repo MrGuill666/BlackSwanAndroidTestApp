@@ -7,7 +7,7 @@
     android:layout_margin="5dp"
     card_view:cardCornerRadius="4dp">
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:orientation="horizontal"
@@ -16,7 +16,7 @@
 
         <ImageView
             android:id="@+id/image"
-            android:layout_width="100dp"
+            android:layout_width="132dp"
             android:layout_height="match_parent"
             android:adjustViewBounds="true"
             android:src="@drawable/not_found" />
@@ -24,15 +24,16 @@
         <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-
+            android:layout_margin="@dimen/text_margin"
+            android:layout_toRightOf="@+id/image"
             >
 
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_margin="@dimen/text_margin">
+                android:layout_above="@+id/more">
+
 
                 <TextView
                     android:id="@+id/title"
@@ -81,20 +82,29 @@
                     android:textSize="12sp"
 
                     />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+
+                    android:layout_below="@+id/description"
+                    android:background="@android:color/darker_gray" />
             </RelativeLayout>
+
 
 
             <TextView
                 android:id="@+id/more"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
-                android:layout_margin="@dimen/text_margin"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="@dimen/text_margin"
                 android:clickable="true"
                 android:text="@string/more_info"
                 android:textAppearance="?attr/textAppearanceListItem"
                 android:textSize="12sp" />
         </RelativeLayout>
 
-    </LinearLayout>
+    </RelativeLayout>
 </android.support.v7.widget.CardView>

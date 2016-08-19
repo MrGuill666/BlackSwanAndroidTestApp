@@ -7,9 +7,7 @@ import java.util.List;
  */
 public interface TheMovieDBListener {
     void UpdateMovies(List<Movie> movies);
-
     void UpdateTV(List<TVShow> movies);
-
     void UpdatePeople(List<Person> movies);
 
 

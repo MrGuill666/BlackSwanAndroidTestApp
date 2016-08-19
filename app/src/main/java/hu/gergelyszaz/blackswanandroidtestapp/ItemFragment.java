@@ -24,7 +24,7 @@ import hu.gergelyszaz.blackswanandroidtestapp.network.TheMovieDB;
 
 public class ItemFragment extends Fragment {
     private final static String CONTENT="list_content";
-    private OnListFragmentInteractionListener mListener;
+    private OnListFragmentInteractionListener onListFragmentInteractionListener;
 
     public ItemFragment() {    }
 
@@ -51,37 +51,29 @@ public class ItemFragment extends Fragment {
             Context context = view.getContext();
             RecyclerView recyclerView = (RecyclerView) view;
             recyclerView.setLayoutManager(new LinearLayoutManager(context));
-
             ModelFragment modelFragment = ModelFragment.getModelFragment(getFragmentManager());
-
             int type = getArguments().getInt("type", 0);
             RecyclerView.Adapter adapter = null;
             switch (type) {
                 case TheMovieDB.MOVIES:
                     List<Movie> movies = modelFragment.getMovies();
-                    adapter = new MovieRecyclerViewAdapter(movies, mListener);
+                    adapter = new MovieRecyclerViewAdapter(movies, onListFragmentInteractionListener);
                     modelFragment.setMovieAdapter(adapter);
                     break;
                 case TheMovieDB.PEOPLE:
                     List<Person> people = modelFragment.getPeople();
-                    adapter = new PersonRecyclerViewAdapter(people, mListener);
+                    adapter = new PersonRecyclerViewAdapter(people, onListFragmentInteractionListener);
                     modelFragment.setPeopleAdapter(adapter);
-
                     break;
                 case TheMovieDB.TV:
                     List<TVShow> tvshows = modelFragment.getTVShows();
-                    adapter = new TVRecyclerViewAdapter(tvshows, mListener);
+                    adapter = new TVRecyclerViewAdapter(tvshows, onListFragmentInteractionListener);
                     modelFragment.setTVShowAdapter(adapter);
-
                     break;
-
                 default:
                     throw new IllegalArgumentException();
             }
-
             recyclerView.setAdapter(adapter);
-
-
         }
         return view;
     }
@@ -92,7 +84,7 @@ public class ItemFragment extends Fragment {
     public void onAttach(Context context) {
         super.onAttach(context);
         if (context instanceof OnListFragmentInteractionListener) {
-            mListener = (OnListFragmentInteractionListener) context;
+            onListFragmentInteractionListener = (OnListFragmentInteractionListener) context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnListFragmentInteractionListener");
@@ -102,7 +94,7 @@ public class ItemFragment extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
-        mListener = null;
+        onListFragmentInteractionListener = null;
     }
 
     public interface OnListFragmentInteractionListener {
