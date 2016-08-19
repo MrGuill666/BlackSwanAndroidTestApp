@@ -29,6 +29,7 @@ public class PersonRecyclerViewAdapter extends RecyclerViewAdapter {
         holder.rating.setVisibility(View.GONE);
         holder.date.setVisibility(View.GONE);
         holder.more.setVisibility(View.GONE);
+        holder.subtitle.setVisibility(View.GONE);
         holder.item = person;
 
         if (person.getImageURL() != "null") {

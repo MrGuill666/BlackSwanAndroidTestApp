@@ -14,6 +14,7 @@ import hu.gergelyszaz.blackswanandroidtestapp.model.Item;
 public class CardViewHolder extends RecyclerView.ViewHolder {
 
     public final TextView description;
+    public final TextView subtitle;
     public final TextView rating;
     public final ImageView image;
     public final TextView title;
@@ -27,11 +28,12 @@ public class CardViewHolder extends RecyclerView.ViewHolder {
         super(view);
         this.view = view;
 
-        title = (TextView) view.findViewById(R.id.title);
         description = (TextView) view.findViewById(R.id.description);
-        date = (TextView) view.findViewById(R.id.date);
+        subtitle = (TextView) view.findViewById(R.id.subtitle);
         rating = (TextView) view.findViewById(R.id.rating);
         image = (ImageView) view.findViewById(R.id.image);
+        title = (TextView) view.findViewById(R.id.title);
+        date = (TextView) view.findViewById(R.id.date);
         more = (TextView) view.findViewById(R.id.more);
     }
 
