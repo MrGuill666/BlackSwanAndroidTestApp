@@ -29,11 +29,16 @@ public class MovieRecyclerViewAdapter extends RecyclerViewAdapter {
         holder.rating.setText(movie.getRating());
         holder.date.setText(movie.getDate());
 
-        Resources resources = holder.view.getResources();
-        String postersURL = resources.getString(R.string.url_posters);
-        String api_key = resources.getString(R.string.api_key);
-        String url = postersURL + movie.getImageURL() + "?api_key=" + api_key;
-        new DownloadImageTask(holder.image).execute(url);
+        if (movie.getImageURL() != "null") {
+            Resources resources = holder.view.getResources();
+            String postersURL = resources.getString(R.string.url_posters);
+            String api_key = resources.getString(R.string.api_key);
+            String url = postersURL + movie.getImageURL() + "?api_key=" + api_key;
+            new DownloadImageTask(holder.image).execute(url);
+        } else {
+            holder.image.setImageBitmap(null);
+        }
+
     }
 
     @Override

@@ -28,11 +28,15 @@ public class PersonRecyclerViewAdapter extends RecyclerViewAdapter {
         holder.rating.setText("");
         holder.date.setText("");
 
-        Resources resources = holder.view.getResources();
-        String postersURL = resources.getString(R.string.url_posters);
-        String api_key = resources.getString(R.string.api_key);
-        String url = postersURL + person.getImageURL() + "?api_key=" + api_key;
-        new DownloadImageTask(holder.image).execute(url);
+        if (person.getImageURL() != "null") {
+            Resources resources = holder.view.getResources();
+            String postersURL = resources.getString(R.string.url_posters);
+            String api_key = resources.getString(R.string.api_key);
+            String url = postersURL + person.getImageURL() + "?api_key=" + api_key;
+            new DownloadImageTask(holder.image).execute(url);
+        } else {
+            holder.image.setImageBitmap(null);
+        }
     }
 
     @Override

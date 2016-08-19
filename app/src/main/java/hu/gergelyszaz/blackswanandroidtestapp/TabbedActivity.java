@@ -1,23 +1,22 @@
 package hu.gergelyszaz.blackswanandroidtestapp;
 
+
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 
 import hu.gergelyszaz.blackswanandroidtestapp.network.TheMovieDB;
 
 
-public class TabbedActivity extends AppCompatActivity implements ItemFragment.OnListFragmentInteractionListener {
+public class TabbedActivity extends AppCompatActivity implements ItemFragment.OnListFragmentInteractionListener, SearchView.OnQueryTextListener {
 
     private SectionsPagerAdapter mSectionsPagerAdapter;
 
@@ -43,42 +42,54 @@ public class TabbedActivity extends AppCompatActivity implements ItemFragment.On
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+        ModelFragment modelFragment = ModelFragment.getModelFragment(getSupportFragmentManager());
+        new TheMovieDB(modelFragment, TheMovieDB.MOVIES).getResponse(getString(R.string.url_movies_popular) + "?api_key=" + getString(R.string.api_key));
+        new TheMovieDB(modelFragment, TheMovieDB.PEOPLE).getResponse(getString(R.string.url_people_popular) + "?api_key=" + getString(R.string.api_key));
+        new TheMovieDB(modelFragment, TheMovieDB.TV).getResponse(getString(R.string.url_tv_popular) + "?api_key=" + getString(R.string.api_key));
+
     }
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_tabbed, menu);
+        getMenuInflater().inflate(R.menu.menu_search, menu);
+        MenuItem searchItem = menu.findItem(R.id.search);
+        SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+        searchView.setOnQueryTextListener(this);
+
         return true;
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
 
     @Override
     public void onListFragmentInteraction(Object item) {
 
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        int position = mViewPager.getCurrentItem();
+        ModelFragment modelFragment = ModelFragment.getModelFragment(getSupportFragmentManager());
+        switch (position) {
+            case TheMovieDB.MOVIES:
+                new TheMovieDB(modelFragment, TheMovieDB.MOVIES).getResponse(getString(R.string.url_movies_search) + "?api_key=" + getString(R.string.api_key) + "&query=" + query);
+                break;
+            case TheMovieDB.PEOPLE:
+                new TheMovieDB(modelFragment, position).getResponse(getString(R.string.url_people_search) + "?api_key=" + getString(R.string.api_key) + "&query=" + query);
+                break;
+            case TheMovieDB.TV:
+                new TheMovieDB(modelFragment, position).getResponse(getString(R.string.url_tv_search) + "?api_key=" + getString(R.string.api_key) + "&query=" + query);
+                break;
+            default:
+                throw new IllegalArgumentException();
+        }
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        return false;
     }
 
 
@@ -93,7 +104,7 @@ public class TabbedActivity extends AppCompatActivity implements ItemFragment.On
         }
 
         @Override
-        public Fragment getItem(int position) {
+        public android.support.v4.app.Fragment getItem(int position) {
             return ItemFragment.newInstance(position);
 
         }

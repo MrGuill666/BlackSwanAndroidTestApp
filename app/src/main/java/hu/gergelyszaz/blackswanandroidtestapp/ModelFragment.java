@@ -14,20 +14,15 @@ import hu.gergelyszaz.blackswanandroidtestapp.model.ItemList;
 import hu.gergelyszaz.blackswanandroidtestapp.model.Movie;
 import hu.gergelyszaz.blackswanandroidtestapp.model.Person;
 import hu.gergelyszaz.blackswanandroidtestapp.model.TVShow;
-import hu.gergelyszaz.blackswanandroidtestapp.network.TheMovieDB;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link ModelFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+
 public class ModelFragment extends Fragment implements ItemList {
     private List<Movie> movies = new ArrayList<>();
     private List<TVShow> tvshows = new ArrayList<>();
     private List<Person> people = new ArrayList<>();
-    private RecyclerView.Adapter movieAdapter = null;
-    private RecyclerView.Adapter personAdapter = null;
-    private RecyclerView.Adapter tvshowAdapter = null;
+    private RecyclerView.Adapter movieAdapter;
+    private RecyclerView.Adapter personAdapter;
+    private RecyclerView.Adapter tvshowAdapter;
 
     public ModelFragment() {
         // Required empty public constructor
@@ -37,29 +32,20 @@ public class ModelFragment extends Fragment implements ItemList {
         ModelFragment fragment = new ModelFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
+        fragment.setRetainInstance(true);
         return fragment;
     }
 
-    public static ModelFragment getModelFragment(Fragment caller, FragmentManager fragmentManager) {
+    public static ModelFragment getModelFragment(FragmentManager fragmentManager) {
         FragmentTransaction fTransaction = fragmentManager.beginTransaction();
         ModelFragment modelFragment = (ModelFragment) fragmentManager.findFragmentByTag("ModelFragment");
         if (modelFragment == null) {
             modelFragment = new ModelFragment();
-            modelFragment.setTargetFragment(caller, 0);
+
             fTransaction.add(modelFragment, "ModelFragment");
         }
         fTransaction.commit();
         return modelFragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setRetainInstance(true);
-        new TheMovieDB(this, TheMovieDB.MOVIES).getResponse(getString(R.string.url_movies_popular) + "?api_key=" + getString(R.string.api_key));
-        new TheMovieDB(this, TheMovieDB.PEOPLE).getResponse(getString(R.string.url_people_popular) + "?api_key=" + getString(R.string.api_key));
-        new TheMovieDB(this, TheMovieDB.TV).getResponse(getString(R.string.url_tv_popular) + "?api_key=" + getString(R.string.api_key));
-
     }
 
     public List<Movie> getMovies() {
@@ -98,15 +84,16 @@ public class ModelFragment extends Fragment implements ItemList {
             personAdapter.notifyDataSetChanged();
     }
 
-    public void RegisterMovieAdapter(RecyclerView.Adapter adapter) {
+
+    public void setMovieAdapter(RecyclerView.Adapter adapter) {
         movieAdapter = adapter;
     }
 
-    public void RegisterTVShowAdapter(RecyclerView.Adapter adapter) {
+    public void setTVShowAdapter(RecyclerView.Adapter adapter) {
         tvshowAdapter = adapter;
     }
 
-    public void RegisterPeopleAdapter(RecyclerView.Adapter adapter) {
+    public void setPeopleAdapter(RecyclerView.Adapter adapter) {
         personAdapter = adapter;
     }
 

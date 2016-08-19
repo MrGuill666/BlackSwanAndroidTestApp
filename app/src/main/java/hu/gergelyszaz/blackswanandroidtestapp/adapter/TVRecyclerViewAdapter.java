@@ -27,12 +27,15 @@ public class TVRecyclerViewAdapter extends RecyclerViewAdapter {
         holder.description.setText(tvshow.getDescription());
         holder.rating.setText(tvshow.getRating());
         holder.date.setText(tvshow.getDate());
-
-        Resources resources = holder.view.getResources();
-        String postersURL = resources.getString(R.string.url_posters);
-        String api_key = resources.getString(R.string.api_key);
-        String url = postersURL + tvshow.getImageURL() + "?api_key=" + api_key;
-        new DownloadImageTask(holder.image).execute(url);
+        if (tvshow.getImageURL() != "null") {
+            Resources resources = holder.view.getResources();
+            String postersURL = resources.getString(R.string.url_posters);
+            String api_key = resources.getString(R.string.api_key);
+            String url = postersURL + tvshow.getImageURL() + "?api_key=" + api_key;
+            new DownloadImageTask(holder.image).execute(url);
+        } else {
+            holder.image.setImageBitmap(null);
+        }
     }
 
     @Override
