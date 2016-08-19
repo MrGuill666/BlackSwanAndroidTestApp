@@ -1,4 +1,4 @@
-package hu.gergelyszaz.blackswanandroidtestapp;
+package hu.gergelyszaz.blackswanandroidtestapp.network;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;

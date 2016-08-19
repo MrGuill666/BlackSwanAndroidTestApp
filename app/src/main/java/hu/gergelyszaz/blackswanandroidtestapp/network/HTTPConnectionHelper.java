@@ -1,4 +1,4 @@
-package hu.gergelyszaz.blackswanandroidtestapp;
+package hu.gergelyszaz.blackswanandroidtestapp.network;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -13,7 +13,7 @@ import java.net.URL;
 /**
  * Created by mad on 2016. 08. 18..
  */
-public class StreamToStringConverter {
+public class HTTPConnectionHelper {
     public static String convertStreamToString(InputStream is) {
         BufferedReader reader = new BufferedReader(new InputStreamReader(is));
         StringBuilder sb = new StringBuilder();
@@ -36,16 +36,14 @@ public class StreamToStringConverter {
     }
 
     public static String getHttpResponseMessage(String address) {
-
-        URL url = null;
         String response = "";
         HttpURLConnection urlConnection = null;
         try {
-            url = new URL(address);
+            URL url = new URL(address);
             urlConnection = (HttpURLConnection) url.openConnection();
             urlConnection.setRequestMethod("GET");
             InputStream in = new BufferedInputStream(urlConnection.getInputStream());
-            response = StreamToStringConverter.convertStreamToString(in);
+            response = HTTPConnectionHelper.convertStreamToString(in);
             System.out.println(response);
             in.close();
         } catch (ProtocolException e) {
@@ -55,7 +53,9 @@ public class StreamToStringConverter {
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
-            urlConnection.disconnect();
+            if (urlConnection != null) {
+                urlConnection.disconnect();
+            }
         }
         return response;
     }

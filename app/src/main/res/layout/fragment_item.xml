@@ -16,31 +16,74 @@
 
         <ImageView
             android:id="@+id/image"
-            android:layout_width="200dp"
-            android:adjustViewBounds="true"
+            android:layout_width="100dp"
             android:layout_height="match_parent"
-            android:src="@drawable/not_found"
-            />
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
+            android:adjustViewBounds="true"
+            android:src="@drawable/not_found" />
 
-        >
-        <TextView
-            android:id="@+id/id"
-            android:layout_width="wrap_content"
-
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/text_margin"
-            android:textAppearance="?attr/textAppearanceListItem" />
+            android:orientation="vertical"
 
-        <TextView
-            android:id="@+id/content"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/text_margin"
-            android:textAppearance="?attr/textAppearanceListItem" />
-    </LinearLayout>
+            >
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="@dimen/text_margin">
+
+                <TextView
+                    android:id="@+id/title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_toLeftOf="@+id/rating"
+                    android:textAppearance="?attr/textAppearanceListItem" />
+
+                <TextView
+                    android:id="@+id/rating"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentTop="true"
+                    android:textAppearance="?attr/textAppearanceListItem" />
+
+                <TextView
+                    android:id="@+id/date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@+id/rating"
+                    android:textAppearance="?attr/textAppearanceListItem"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/content"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_below="@+id/title"
+                    android:textAppearance="?attr/textAppearanceListItem"
+                    android:textSize="12sp"
+
+                    />
+            </RelativeLayout>
+
+
+            <TextView
+                android:id="@+id/more"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_margin="@dimen/text_margin"
+                android:clickable="true"
+                android:text="@string/more_info"
+                android:textAppearance="?attr/textAppearanceListItem"
+                android:textSize="12sp" />
+        </RelativeLayout>
+
     </LinearLayout>
 </android.support.v7.widget.CardView>

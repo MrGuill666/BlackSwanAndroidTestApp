@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="url_movies_popular">http://api.themoviedb.org/3/movie/popular</string>
+    <string name="url_tv_popular">http://api.themoviedb.org/3/tv/popular</string>
+    <string name="url_people_popular">http://api.themoviedb.org/3/person/popular</string>
+    <string name="url_posters">http://image.tmdb.org/t/p/w185</string>
+    <string name="api_key">0a08e38b874d0aa2d426ffc04357069d</string>
+</resources>
